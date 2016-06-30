@@ -653,11 +653,14 @@ class TwitterController < ApplicationController
 
   # Añade el usuario de Twitter a nuestras propuestas
   def add_proposal
-    @proposal = Proposal.create(proposal_params)
-    # Este es el comando que se comunica con CodeaTag para guardar tus propuestas.
-    @proposal.send_to_codea
-    flash[:success] = "
-    Propuesta Agregada"
+    proposal = Proposal.find_by(twitter_handle: params[:proposal][:twitter_handle])
+    if proposal == nil
+      @proposal = Proposal.create(proposal_params)
+      @proposal.send_to_codea
+      flash[:success] = "Propuesta Agregada"
+    else
+      flash[:danger] = "No puedes duplicar una propuesta"
+    end
     redirect_to proposals_path
   end
 
