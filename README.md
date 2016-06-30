@@ -8,7 +8,7 @@ Entra a la página de **[Cloud9](https://c9.io)** y crea una cuenta, seguramente
 2. En el campo **Create workspace** escribe: `codeatag`
 3. En el campo **Description** puedes explicar brevemente lo que hará tu aplicación o usar nuestra descripción: `This app creates proposals for TagCDMX using the Twitter API and sends them to CodeaTag app.`
 4. En la opción **Hosted Workspace** seleccionar **'Public'**
-5. En el campo **Clone from Git or Mercurial URL** vamos a pegar la siguiente URL: `https://github.com/softwarenacho/codeatag.git`. Esto nos permite clonar (copiar) un esqueleto  con el código mínimo para empezar con tu aplicación.
+5. En el campo **Clone from Git or Mercurial URL** vamos a pegar la siguiente URL: `https://github.com/codealab/esqueleto_propuestas.git`. Esto nos permite clonar (copiar) un esqueleto  con el código mínimo para empezar con tu aplicación.
 6. En **Choose a template** seleccionamos el template `Ruby`.
 7. Da click en **Create workspace** para pasar al siguiente paso.
 
@@ -283,17 +283,21 @@ La acción anterior crea una `Proposal` vacía y como especifica el comentario, 
 
 ``` ruby
   def create
-    @proposal = Proposal.new(proposal_params)
-    flash[:success] = "Propuesta Agregada"
-    @proposal.save
-    redirect_to proposals_path
+   proposal = Proposal.find_by(name: params[:proposal][:name])
+   if proposal == nil
+     @proposal = Proposal.create(proposal_params)
+     flash[:success] = "Propuesta Agregada"
+   else
+     flash[:danger] = "No puedes duplicar una propuesta"
+   end
+   redirect_to proposals_path
   end
 
   private
 
-  def proposal_params
-    params.require(:proposal).permit(:name, :avatar)
-  end
+    def proposal_params
+      params.require(:proposal).permit(:name, :avatar)
+    end
 ```
 
 En este código definimos dos métodos `create` que guarda nuestra propuesta y utiliza el otro método, `proposal_params` el cual es privado y se encarga de recibir los parámetros que envió la forma y omitir información no permitida.
@@ -464,11 +468,15 @@ class ProposalsController < ApplicationController
   end
 
   def create
-    @proposal = Proposal.new(proposal_params)
-    @proposal.save
-    flash[:success] = "Propuesta Agregada"
+    proposal = Proposal.find_by(name: params[:proposal][:name])
+    if proposal == nil
+      @proposal = Proposal.create(proposal_params)
+      flash[:success] = "Propuesta Agregada"
+    else
+      flash[:danger] = "No puedes duplicar una propuesta"
+    end
     redirect_to proposals_path
-  end
+   end
 
   def show
     @proposal = Proposal.find(params[:id])
