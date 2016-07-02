@@ -298,7 +298,6 @@ La última funcionalidad que agregaremos para completar el CRUD es borrar una `P
 ``` ruby
   def destroy
     @proposal = Proposal.find(params[:id])
-    @proposal.delete_codea
     @proposal.destroy
     flash[:danger] = "Propuesta borrada"
     redirect_to proposals_path
@@ -353,7 +352,6 @@ class ProposalsController < ApplicationController
 
   def destroy
     @proposal = Proposal.find(params[:id])
-    @proposal.delete_codea
     @proposal.destroy
     flash[:danger] = "Propuesta borrada"
     redirect_to proposals_path

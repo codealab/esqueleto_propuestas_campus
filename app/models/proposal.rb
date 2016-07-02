@@ -17,12 +17,4 @@ class Proposal < ActiveRecord::Base
       Net::HTTP.post_form(URI.parse(url), params)
   end
 
-  def delete_codea
-      api_token = Rails.application.secrets.codea_api_token
-      url = "http://codea-campusparty.herokuapp.com/api_decrement"
-      params = {"api_token" => api_token,
-                "proposal[twitter_handle]" => self.twitter_handle}
-      Net::HTTP.post_form(URI.parse(url), params)
-  end
-
 end
