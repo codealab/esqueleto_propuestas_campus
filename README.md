@@ -163,7 +163,7 @@ Para crear un objeto `Proposal` necesitamos usar dos acciones:
 - `create` - Nos servirá para crear y guardar la nueva `Proposal` en la base de datos.
 
 
-**Es importante recordar que todas las acciones (métodos) del controlador las añadirás al archivo `codeatag/app/controllers/proposals_controller.rb` dentro de la clase `ProposalsController`, lo que significa que va entre las líneas `class ProposalsController < ApplicationController` y `end`.**
+**Es importante recordar que todas las acciones (métodos) del controlador las añadirás al archivo `codea/app/controllers/proposals_controller.rb` dentro de la clase `ProposalsController`, lo que significa que va entre las líneas `class ProposalsController < ApplicationController` y `end`.**
 
 #### Acción `index`
 
@@ -174,51 +174,6 @@ Para crear un objeto `Proposal` necesitamos usar dos acciones:
     @proposals = Proposal.all
     # render 'proposals/index.html.erb'
   end
-```
-La acción anterior trae de la base de datos todas las `Proposals` y como especifica el comentario, se mostrará el archivo '/codeatag/app/views/proposals/index.html.erb'.
-
-- Copia el siguiente código que combina HTML y Ruby para enlistar los `proposals` que trajimos de la base de datos.
-
-``` erb
-<div id="first_section">
-  <div class="container">
-    <div class="jumbotron well">
-      <h1 class="text-center">Propuestas para <%= image_tag("http://escenaweb.com/wp-content/uploads/2016/05/campus-party-mexico.png", alt: "Campus Party", :height => 100)  %></h1>
-    </div>
-  </div><!-- container -->
-</div>
-<div class="container container-margin">
-  <div class="row">
-    <% if @proposals.any? %>
-      <% @proposals.each do |proposal| %>
-        <div class="col-sm-6 col-md-4">
-          <div class="thumbnail thumbnail-fix">
-            <% if proposal.avatar == "" %>
-              <%= link_to image_tag("http://icons.veryicon.com/128/Avatar/Face%20Avatars/Male%20Face%20N2.png",
-                                    class:"pull-left username-card-img"), proposal_path(proposal) %>
-            <% else %>
-              <% avatar = proposal.avatar.gsub!("_normal", "_bigger") %>
-              <%= link_to image_tag(avatar == nil ? proposal.avatar : avatar,
-                    class:"pull-left username-card-img"), proposal_path(proposal) %>
-            <% end %>
-            <div class="caption">
-              <h5 class="text-center username-card" style="display:inline-block">
-                <%= link_to proposal.name, proposal_path(proposal) %>
-              </h5>
-              <br>
-              <%= link_to "", edit_proposal_path(proposal),
-                                              class: "btn btn-warning btn-xs glyphicon glyphicon-pencil" %>
-              <%= link_to "", proposal_path(proposal),
-                    method: :delete,
-                    data: { confirm: "¿Seguro que quieres eliminar la propuesta?" },
-                    class: "btn btn-danger btn-xs glyphicon glyphicon-trash" %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-</div>
 ```
 
 > ####Levantando el servidor
@@ -247,32 +202,6 @@ El link a tu aplicación te saldrá del lado derecho de tu Terminal en una alert
     @proposal = Proposal.new
     # render 'proposal/new.html.erb'
   end
-```
-
-La acción anterior crea una `Proposal` vacía y como especifica el comentario, se mostrará el archivo '/codeatag/app/views/proposals/new.html.erb'.
-
-- Pega el siguiente código HTML en este archivo.
-
-``` erb
-<div id="first_section">
-  <div class="container">
-    <h1 class="text-center">Agrega tu propuesta</h1>
-    <div class="row">
-      <%= form_for @proposal do |f| %>
-
-      <div class="proposal-input col-md-offset-3 col-md-6 ">
-        <%= f.text_field :name,   placeholder: "Nombre", class: "form-control" %>
-      </div>
-      <div class="proposal-input col-md-offset-3 col-md-6 ">
-        <%= f.text_field :avatar, placeholder: "Avatar", class: "form-control" %>
-      </div>
-      <div class="proposal-input col-md-offset-3 col-md-6">
-        <%= f.submit "Crear", class: "btn btn-md btn-primary btn-block" %>
-      </div>
-      <% end %>
-    </div><!-- first_section -->
-  </div><!-- container -->
-</div>
 ```
 
 - Una vez que hemos hecho esto, podemos ver nuestro formulario dando click al link de `Nueva propuesta` en la barra de navegación de tu aplicación. Si agregas una propuesta y le das click al botón `crear` verás un error, esto es porque no hemos creado el método `create`.
@@ -308,10 +237,6 @@ El método 'create' crea una nueva `Proposal` con los parámetros que le pasó e
 
 Con este método ya podemos crear propuestas nuevas. Agrega por lo menos 3 propuestas nuevas, recuerda que en avatar deberás poner el link a una imagen de la propuesta que añades o lo puedes dejar vacío.
 
-
-** Cómo podrás ver tus propuestas tiene al lado las letras `E` y `X` las cuales son unos links que nos llevarán a las acciones Editar y Borrar respectivamente, estas las crearemos más adelante en este tutorial.**
-
-
 #### Acción `show`
 
 - En este momento si le das click al nombre de tus propuestas encontrarás un error pues aún no hemos creado la acción que muestra cada una de ellas de manera individual.
@@ -329,52 +254,6 @@ Con este método ya podemos crear propuestas nuevas. Agrega por lo menos 3 propu
 **Recuerda guardar tus archivos después de cada cambio**
 
 La acción anterior trae de la base de datos una `Proposal` pasándole un `id`. Para acceder al id de la url, utilizamos el hash `params`.
-Esta acción mostrará el archivo '/codeatag/app/views/proposals/show.html.erb'.
-
-- Accede a este archivo y copia en él el siguiente código que mostrará el detalle del `Proposal` que trajimos de la base de datos.
-
-``` erb
-<div class="row container-margin first-row">
-  <div class="col-md-4 col-md-offset-4">
-    <div class="panel panel-default">
-      <div class="panel-body flex-center">
-        <% if @proposal.avatar == "" %>
-          <%= image_tag("http://icons.veryicon.com/128/Avatar/Face%20Avatars/Male%20Face%20N2.png", class:"img-responsive show-img")%>
-        <% else %>
-          <% avatar = @proposal.avatar.gsub!("_normal", "") %>
-          <%= image_tag(avatar == nil ? @proposal.avatar : avatar, class:"img-responsive show-img")%>
-        <% end %>
-      </div>
-      <div class="panel-footer text-center">
-        <div class="row">
-          <div class="col-md-12">
-            <h2><%= @proposal.name %></h2>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-4 col-xs-4 options-margin">
-            <% counter = @counter == "" ? 0 : @counter %>
-            <div class="btn btn-danger btn-xs counter-show"><%= counter %></div>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-4">
-            <% if @proposal.twitter_handle != nil %>
-              <%= link_to image_tag("http://icons.veryicon.com/png/Application/Android%20Lollipop%20Apps/Twitter.png", class:"twitter_link", height: "40px", style: "margin-bottom: 10px;"), "http://www.twitter.com/#{@proposal.twitter_handle}", target: "_blank"%>
-            <% end %>
-          </div>
-          <div class="col-md-4 col-sm-4 col-xs-4 options-margin">
-            <%= link_to "", edit_proposal_path(@proposal),
-                                    class: "btn btn-warning btn-xs glyphicon glyphicon-pencil" %>
-            <%= link_to "", proposal_path(@proposal),
-                  method: :delete,
-                  data: { confirm: "¿Seguro que quieres eliminar la propuesta?" },
-                  class: "btn btn-danger btn-xs glyphicon glyphicon-trash" %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-```
 
 - Ahora navega a tu página principal de propuestas y da click al nombre de alguna de ellas para que veas la página que acabas de crear.
 
@@ -390,30 +269,6 @@ La acción `edit`, nos permitirá corregir una `Proposal` en caso de que nos hay
     @proposal = Proposal.find(params[:id])
     # render 'proposals/edit.html.erb'
   end
-```
-
-- Agrega el siguiente código al archivo '/codeatag/app/views/proposals/edit.html.erb':
-
-``` erb
-<div id="first_section">
-  <div class="container">
-    <h1 class="text-center">Editar Propuesta</h1>
-    <div class="row">
-      <%= form_for @proposal do |f| %>
-
-      <div class="proposal-input col-md-offset-3 col-md-6 ">
-        <%= f.text_field :name,   placeholder: "Nombre", class: "form-control" %>
-      </div>
-      <div class="proposal-input col-md-offset-3 col-md-6 ">
-        <%= f.text_field :avatar, placeholder: "Avatar", class: "form-control" %>
-      </div>
-      <div class="proposal-input col-md-offset-3 col-md-6">
-        <%= f.submit "Guardar", class: "btn btn-md btn-primary btn-block" %>
-      </div>
-      <% end %>
-    </div><!-- first_section -->
-  </div><!-- container -->
-</div>
 ```
 
 Con esto ya funcionan los links para editar `E` en las propuestas de tu página `index` y `show`. Al dar click en cualquiera de estos links, podemos ver nuestra forma, la cual al guardarla genera un error al no encontrar el método 'update' el cual crearemos a continuación.
@@ -450,7 +305,7 @@ La última funcionalidad que agregaremos para completar el CRUD es borrar una `P
   end
 ```
 
-Este código hace que funcionen el link 'X' de cada propuesta para borrarla. Pruebalo esta funcionalidad borrando cualquiera de las propuestas que has añadido.
+Este código hace que funcionen el link de la 'basurita' de cada propuesta para borrarla. Pruebalo esta funcionalidad borrando cualquiera de las propuestas que has añadido.
 
 Tu archivo de controlador debe contener el siguiente código al final de estos pasos:
 
@@ -577,7 +432,7 @@ Esto nos va a loggear en nuestra aplicación por medio de la API de Twitter. Pos
 
 ### Configurar la API de Twitter y Codea-CampusParty
 
-La información que generamos en el paso anterior es privada y te pertenece, para protegerla utilizaremos un archivo de Rails en dónde guardaremos tus `tokens` y nadie podrá acceder a ellos más que tú, para esto deberás navegar al archivo 'codeatag/config/twitter_secret.yml' donde verás el siguiente código:
+La información que generamos en el paso anterior es privada y te pertenece, para protegerla utilizaremos un archivo de Rails en dónde guardaremos tus `tokens` y nadie podrá acceder a ellos más que tú, para esto deberás navegar al archivo 'codea/config/twitter_secret.yml' donde verás el siguiente código:
 
 ```ruby
 CONSUMER_KEY:
@@ -635,7 +490,7 @@ En el vamos a colocar los métodos que se encargarán de:
 - Buscar una propuesta en Twitter
 - Guardar una nueva propuesta de Twitter
 
-Todas estas funciones se ejecutan sustituyendo el contenido del archivo 'codeatag/app/controllers/twitter_controller.rb' por el siguiente código, lee los comentarios para entender la función de cada uno de ellos:
+Todas estas funciones se ejecutan sustituyendo el contenido del archivo 'codea/app/controllers/twitter_controller.rb' por el siguiente código, lee los comentarios para entender la función de cada uno de ellos:
 
 ```ruby
 class TwitterController < ApplicationController
@@ -675,13 +530,13 @@ end
 
 Los siguientes links te servirán como documentación para entender de donde salió parte del código anterior.
 ​
-- [Esta es la documentación de como utilizar la gema para hacer peticiones a twitter](http://www.rubydoc.info/gems/twitter)
+- [Esta es la documentación de cómo utilizar la gema para hacer peticiones a twitter](http://www.rubydoc.info/gems/twitter)
 - [De esta parte de la documentación sacamos el método para buscar usuarios](http://www.rubydoc.info/gems/twitter/Twitter/REST/Users#user_search-instance_method)
 - [Aquí aprendimos con el método 'attrs' a conocer los atributos que podemos utilizar para cada usuario](http://www.rubydoc.info/gems/twitter/Twitter/User)
 
 **Recuerda grabar tus archivos después de cada modificación.**
 
-En la carpeta '/codeatag/app/views/twitter/twitter_proposal.html.erb' hemos creado por ti los archivos de vistas necesarios para estas nuevas funcionalidades.
+En la carpeta '/codea/app/views/twitter/twitter_proposal.html.erb' hemos creado por ti los archivos de vistas necesarios para estas nuevas funcionalidades.
 
 Con esto ya podrás acceder a tu nueva página en tu aplicación ('Propón con Twitter'), en ella podrás buscar y agregar nuevas propuestas a tu aplicación, intenta agregar varias propuestas por este medio y checa como se ven en tu página principal de propuestas.
 
