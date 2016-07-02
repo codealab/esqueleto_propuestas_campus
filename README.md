@@ -12,7 +12,7 @@ Entra a la página de **[Cloud9](https://c9.io)** y crea una cuenta, seguramente
 6. En **Choose a template** seleccionamos el template `Ruby`.
 7. Da click en **Create workspace** para pasar al siguiente paso.
 
-![Cloud9 Workspace](https://codealab.files.wordpress.com/2016/06/creating_workspace.png)
+![Cloud9 Workspace](https://codealab.files.wordpress.com/2016/07/creating_workspace-copy.png)
 
 ### Interfaz de Cloud9
 **Familiarízate con la interfaz de Cloud9**
@@ -397,7 +397,7 @@ A continuación vamos a llenar todos los campos que Twitter nos pide para crear 
 4. En **Callback URL:** vuelve a copiar la misma URL que pusiste en el campo anterior.
 5. Para terminar este paso deberás aceptar los términos y condiciones de Twitter seleccionando el 'checkbox' debajo de éstas.
 6. Darle click a `Create your Twitter application`.
-![Creating Twitter App](https://codealab.files.wordpress.com/2016/06/twitter_signin.png)
+![Creating Twitter App](https://codealab.files.wordpress.com/2016/07/twitter_signin-copy.png)
 7. Una vez que tu aplicación sea creada de manera correcta, la página te llevará a un panel de configuración. Dentro de este panel accede a la pestaña de `Keys and Access Tokens` donde encontrarás tu `Consumer Key (API Key)` y tu `Consumer Secret (API Secret)`.
 8. Ahora debemos generar los `Access Token` para lo cual deberás ir a la parte inferior de tu página de keys y dar click en el botón que dice `Create my access token`, esto puede tardar unos momentos y deberá darte un mensaje de éxito en la misma página, si vuelves a bajar dentro de la misma encontrarás una sección titulada 'Your Access Token' en donde están ahora el `Access Token` y el `Access Token Secret`.
 
@@ -422,11 +422,11 @@ Para conseguir este token debes acceder a la aplicación de Codea-CampusParty en
 
 Aquí debes dar click al botón 'Inicio con Twitter' ubicado en la barra de navegación de tu aplicación.
 
-![Sign In with Twitter](https://codealab.files.wordpress.com/2016/06/twitter_signin2.png)
+![Sign In with Twitter](https://codealab.files.wordpress.com/2016/07/twitter_signin2-copy.png)
 
 Esto nos va a loggear en nuestra aplicación por medio de la API de Twitter. Posteriormente nos va a redirigir al perfil de usuario de nuestra aplicación, donde podremos ver el Token que Codea genera para nosotros.
 
-![Codea Token](https://codealab.files.wordpress.com/2016/06/codea_token2.png)
+![Codea Token](https://codealab.files.wordpress.com/2016/07/codea_token2-copy.png)
 
 ### Configurar la API de Twitter y Codea-CampusParty
 
